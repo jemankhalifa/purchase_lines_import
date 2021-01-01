@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="order_data_migrate_tree" model="ir.ui.view">
+            <field name="name">purchase.order.line.data</field>
+            <field name="model">purchase.order.line.data</field>
+            <field name="arch" type="xml">
+                <tree string="Order Data">
+    
+                    <field name="product_id"/>
+                    <field name="name"/>
+                    <field name="date_planned"  widget="date"/>
+
+                    <field name="product_qty"/>
+                    <field name="price_unit"/>
+                    <field name="discount"/>
+
+                    <field name="product_uom" groups="uom.group_uom"/>
+                    <field name="price_subtotal" widget="monetary"/>
+                    
+               </tree>
+            </field>
+        </record>
+
+        <record id="order_data_migrate_form" model="ir.ui.view">
+        <field name="name">purchase.order.line.data</field>
+        <field name="model">purchase.order.line.data</field>
+        <field name="arch" type="xml">
+                <form string="Information addendum">
+                    <sheet>
+                        <group col="4" colspan="2">
+                    <field name="product_id" required="1"/>
+                    <field name="name" required="1"/>
+                   
+                   
+                    <field name="price_unit" required="1"/>
+                    <field name="product_qty" required="1"/>
+                    
+                  
+                        
+                    <field name="discount" string="Discount %"/>
+                    <field name="taxes_id" widget="many2many_tags" domain="[('type_tax_use','=','purchase')]"/>
+
+                    <field name="product_uom" groups="uom.group_uom"/>
+                    <field name="price_subtotal" widget="monetary"/>
+                    <field name="date_planned"  widget="date"/>
+                        </group>
+                    </sheet>
+               </form>
+            </field>
+        </record>
+
+    <record model="ir.actions.act_window" id="action_purchase_order_line">
+            <field name="name">Excel data</field>
+            <field name="res_model">purchase.order.line.data</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="order_data_migrate_tree"/>
+    </record>
+
+        <menuitem
+            name="Import Order Lines"
+            parent="purchase.menu_purchase_root"
+            action="action_purchase_order_line"
+            id="menu_purchase_order_migration" sequence="9"
+           />
+
+        <record id="purchase_order_line_wizard" model="ir.ui.view">
+        <field name="name">order.lines.migration</field>
+        <field name="model">order.lines.migration</field>
+        <field name="arch" type="xml">
+                <form string="Posting..." >
+                    <group col="4" colspan="2">
+                <field name="order_date"/>
+                <field name="supplier_id"/>
+                <field name="order_type" required="1"/>
+            </group>
+                <footer>
+                    <button string="Create Order" name="create_migration_order" type="object" default_focus="1" class="oe_highlight"/>
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+               </footer>
+           
+               </form>
+            </field>
+        </record>
+
+
+        <act_window id="action_purchase_order_create"
+            multi="True"
+            key2="client_action_multi"
+            name="Create Purchase Order"
+            res_model="order.lines.migration" src_model="purchase.order.line.data"
+            view_mode="form"  view_type="form" target="new" />
+
+    </data>
+</odoo>
