@@ -1,18 +1,10 @@
 
-# -*- coding: utf-8 -*-
-##############################################################################
-#
-#
-##############################################################################
-
 from odoo import _, api, fields, models
 from datetime import date, datetime
 
 
 class OrderLinesMigration(models.Model):
-    """
-    Account move line reconcile wizard.
-    """
+ 
     _name = 'order.lines.migration'
 
     order_date = fields.Date('Order date', required=True)

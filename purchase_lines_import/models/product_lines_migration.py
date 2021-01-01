@@ -139,15 +139,7 @@ class OrderLineData(models.Model):
     @api.model
     def _get_date_planned(self, seller, po=False):
         """Return the datetime value to use as Schedule Date (``date_planned``) for
-           PO Lines that correspond to the given product.seller_ids,
-           when ordered at `date_order_str`.
-
-           :param Model seller: used to fetch the delivery delay (if no seller
-                                is provided, the delay is 0)
-           :param Model po: purchase.order, necessary only if the PO line is
-                            not yet attached to a PO.
-           :rtype: datetime
-           :return: desired Schedule Date for the PO line
+           PO Lines that correspond to the given product.seller_ids 
         """
         date_order = po.date_order if po else self.order_id.date_order
         if date_order:
